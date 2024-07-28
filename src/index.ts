@@ -14,11 +14,11 @@ export type YTDLInfo<Full extends boolean = boolean> = {
     name: string;
     url: string;
   };
-} & Full extends true
+} & (Full extends true
   ? { raw: ytdlCore.videoInfo }
   : Full extends false
   ? {}
-  : { raw?: ytdlCore.videoInfo };
+  : { raw?: ytdlCore.videoInfo });
 
 export type FormatQuality =
   | "lowest"
