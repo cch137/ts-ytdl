@@ -6,7 +6,7 @@ import cp from "child_process";
 import ffmpeg from "ffmpeg-static";
 import type { Readable, Writable } from "stream";
 
-export type YTDLInfo<Full extends boolean> = {
+export type YTDLInfo<Full extends boolean = boolean> = {
   id: string;
   title: string;
   url: string;
@@ -14,8 +14,11 @@ export type YTDLInfo<Full extends boolean> = {
     name: string;
     url: string;
   };
-  raw: Full extends true ? ytdlCore.videoInfo : undefined;
-};
+} & Full extends true
+  ? { raw: ytdlCore.videoInfo }
+  : Full extends false
+  ? {}
+  : { raw?: ytdlCore.videoInfo };
 
 export type FormatQuality =
   | "lowest"
@@ -88,11 +91,13 @@ export default class YTDL {
     });
   }
 
-  static async info(
-    source: string,
-    full?: false
+  static async info<Full extends boolean>(
+    source: string
   ): Promise<YTDLInfo<false> | null>;
-  static async info(source: string, full: true): Promise<YTDLInfo<true> | null>;
+  static async info<Full extends boolean>(
+    source: string,
+    full: Full
+  ): Promise<YTDLInfo<Full> | null>;
   static async info(source: string, full?: boolean) {
     try {
       const raw = await ytdlCore.getInfo(source);
