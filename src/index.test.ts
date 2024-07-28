@@ -1,4 +1,4 @@
-import YTDL from ".";
+import YTDL from "./index.js";
 
 throw 1;
 
