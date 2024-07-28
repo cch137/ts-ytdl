@@ -1,8 +1,8 @@
 {
   "name": "@cch137/ytdl",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
