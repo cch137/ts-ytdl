@@ -6,7 +6,7 @@ import cp from "child_process";
 import ffmpeg from "ffmpeg-static";
 import type { Readable, Writable } from "stream";
 
-export type YTDLInfo = {
+export type YTDLInfo<Full extends boolean> = {
   id: string;
   title: string;
   url: string;
@@ -14,7 +14,7 @@ export type YTDLInfo = {
     name: string;
     url: string;
   };
-  raw: ytdlCore.videoInfo;
+  raw: Full extends true ? ytdlCore.videoInfo : undefined;
 };
 
 export type FormatQuality =
@@ -88,7 +88,12 @@ export default class YTDL {
     });
   }
 
-  static async info(source: string): Promise<YTDLInfo | null> {
+  static async info(
+    source: string,
+    full?: false
+  ): Promise<YTDLInfo<false> | null>;
+  static async info(source: string, full: true): Promise<YTDLInfo<true> | null>;
+  static async info(source: string, full?: boolean) {
     try {
       const raw = await ytdlCore.getInfo(source);
       const {
@@ -106,7 +111,7 @@ export default class YTDL {
           name,
           url: channel_url || external_channel_url || "",
         },
-        raw,
+        raw: full ? raw : undefined,
       };
     } catch {}
     return null;
