@@ -1,6 +1,6 @@
 {
   "name": "@cch137/ytdl",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "",
   "type": "module",
   "main": "index.js",
@@ -32,7 +32,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@distube/ytdl-core": "^4.13.7",
+    "@distube/ytdl-core": "^4.14.4",
     "ffmpeg-static": "^5.2.0"
   }
 }
